@@ -17,7 +17,7 @@ from recipes.models import (
 from users.models import User
 
 
-class CustomUserCreateSerializer(UserCreateSerializer): 
+class CustomUserCreateSerializer(UserCreateSerializer):
     """
     Сериализатор для создания пользователя.
     """
@@ -70,12 +70,12 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 
 class IngredientAmountSerializer(serializers.ModelSerializer):
-    """ 
-    Сериализатор для модели количества ингредиента. 
-    """ 
+    """
+    Сериализатор для модели количества ингредиента.
+    """
     id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    name = serializers.ReadOnlyField(source='ingredient.name') 
-    measurement_unit = serializers.ReadOnlyField(source='ingredient.measurement_unit') 
+    name = serializers.ReadOnlyField(source='ingredient.name')
+    measurement_unit = serializers.ReadOnlyField(source='ingredient.measurement_unit')
     amount = serializers.IntegerField(min_value=1, max_value=32000)
 
     class Meta:
@@ -148,10 +148,11 @@ class RecipeReadsSerializer(serializers.ModelSerializer):
 
 class AddIngredientToRecipeSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    
+
     class Meta:
         model = IngredientAmount
         fields = ('id', 'amount')
+
 
 class CreateRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
@@ -366,7 +367,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         """
         request = self.context.get('request')
         recipes = obj.recipes.all()
-        
         recipes_limit = request.query_params.get('recipes_limit')
         if recipes_limit:
             recipes = recipes[:int(recipes_limit)]
